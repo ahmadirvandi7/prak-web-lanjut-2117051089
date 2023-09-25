@@ -15,6 +15,10 @@
             margin: 0;
         }
 
+        .profile-container {
+            margin-top: 100px; 
+        }
+
         .profile-card {
             background-color: #fff; 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
@@ -35,6 +39,13 @@
             align-items: center;
             font-size: 36px; 
             color: #555; 
+            overflow: hidden; 
+        }
+
+        .profile-picture img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
         }
 
         .profile-info {
@@ -47,22 +58,23 @@
             font-weight: bold;
             color: #555; 
         }
-    </style>
+    </style>   
+    <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
 </head>
 <body>
     <div class="profile-card">
         <div class="profile-picture">
-            <i class="fas fa-user"></i> 
+            <img src="<?= base_url('assets/img/kucing.jpg') ?>" alt="foto2">
         </div>
         <div class="profile-info">
             <span>Nama:</span> <?= $nama ?>
         </div>
         <div class="profile-info">
-            <span>Kelas:</span> <?= $kelas ?>
-        </div>
-        <div class="profile-info">
             <span>NPM:</span> <?= $npm ?>
         </div>
+        <div class="profile-info">
+            <span>Kelas:</span> <?= $kelas ?>
+        </div>  
     </div>
 </body>
 </html>
