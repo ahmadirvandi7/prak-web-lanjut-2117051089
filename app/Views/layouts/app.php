@@ -128,7 +128,10 @@
             color: white;
         }
 
-        
+        .custom-button-tambah{
+            background-color: red;
+            color: white;
+        }
 
 
 

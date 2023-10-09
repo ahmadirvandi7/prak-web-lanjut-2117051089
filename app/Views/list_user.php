@@ -3,7 +3,9 @@
 <?= $this->section('content')?>
 
 <div  class="container-box">
+
 <table class="custom-table">
+        <a href=<?= base_url('/user/create')?>>Tambah Data</a>
     <thead>
         <tr>
             <th>Nomor</th>
@@ -23,7 +25,8 @@
             <td><?= $user['npm'] ?></td>
             <td><?= $user['nama_kelas'] ?></td>
             <td>
-                <button type="button" class="custom-button detail-button">Detail</button>
+                <a href="<?= base_url('user/' . $user['id'])?>">Detail</a>
+
                 <button type="button" class="custom-button edit-button">Edit</button>
                 <button type="button" class="custom-button delete-button">Hapus</button>
             </td>

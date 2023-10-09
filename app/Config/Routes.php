@@ -2,7 +2,6 @@
 
 use App\Controllers\UserController;
 use CodeIgniter\Router\RouteCollection;
-use App\Controllers\Home;
 
 /**
  * @var RouteCollection $routes
@@ -18,3 +17,5 @@ $routes->get('/user/create',[UserController::class, 'create']);
 $routes->post('/user/store',[UserController::class, 'store']);
 
 $routes->get('/user', [UserController::class,'index']);
+
+$routes->get('user/(:any)',[UserController::class, 'show']);
