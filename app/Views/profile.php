@@ -64,16 +64,16 @@
 <body>
     <div class="profile-card">
         <div class="profile-picture">
-            <img src="<?= base_url('assets/img/kucing.jpg') ?>" alt="foto2">
+            <img src="<?= $user['foto']?? base_url('/assets/img/kucing.png') ?>" alt="Foto Profil">
         </div>
         <div class="profile-info">
-            <span>Nama:</span> <?= $nama ?>
+            <?= $user['nama']?>
         </div>
         <div class="profile-info">
-            <span>NPM:</span> <?= $npm ?>
+            <?= $user['npm']?>
         </div>
         <div class="profile-info">
-            <span>Kelas:</span> <?= $kelas ?>
+            <?= $user['nama_kelas']?>
         </div>  
     </div>
 </body>

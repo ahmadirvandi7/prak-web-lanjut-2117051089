@@ -13,7 +13,7 @@ class UserModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama','npm','id_kelas'];
+    protected $allowedFields    = ['nama','npm','id_kelas','foto'];
 
     // Dates
     protected $useTimestamps = true;
@@ -23,18 +23,7 @@ class UserModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [
-        'nama'=>['rules'=>'required',
-                'errors'=>['required'=>'Nama harus diiisi']],
-        'npm'=>[
-            'rules'=>'required|is_unique[user.npm]|max_length[10]|min_length[10]',
-            'errors'=>['required'=>'Npm harus diiisi','is_unique'=>'npm ini sudah ada','max_length'=>'npm lebih','min_length'=>'npm kurang']
-        ],
-        'kelas'=>[
-            'rules'=>'required',
-            'errors'=>['required'=>'Kelas harus diiisi']
-        ],
-    ];
+    protected $validationRules      = [];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
@@ -54,8 +43,14 @@ class UserModel extends Model
         $this->insert($data);
     }
 
-    public function getUser(){
-        return $this->join('kelas', 'kelas.id=user.id_kelas')->findAll();
+    public function getUser($id = null){
+
+        if ($id != null){
+            return $this->select('user.id,user.nama,user.npm,user.foto,kelas.nama_kelas')
+            ->join('kelas','kelas.id=user.id_kelas')->find($id);
+        }
+        return $this->select('user.id,user.nama,user.npm,user.foto,kelas.nama_kelas')
+        -> join('kelas','kelas.id=user.id_kelas')->findAll();
     }
 }
 

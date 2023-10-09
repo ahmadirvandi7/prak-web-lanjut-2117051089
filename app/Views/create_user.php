@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <div  class="container-box">
-<form action=<?= base_url('user/store')?> method="POST">
+<form action=<?= base_url('user/store')?> method="POST" enctype="multipart/form-data">
     <?php if(session()->getFlashdata('errors')):?>
     <?=session()->getFlashdata('errors')?>
     <?php endif; ?>
@@ -34,6 +34,14 @@
                         <?php endforeach; ?>
                     </select>
                 </td>
+            </tr>
+            
+            <tr>
+                <td>Foto</td>
+                <td>:</td>
+                <td>
+                    <input type="file" name="foto" id="foto" class="form-control">
+                </td>                
             </tr>
             <tr>
                 <td colspan="3">
