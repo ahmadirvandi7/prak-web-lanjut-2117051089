@@ -72,12 +72,14 @@
         .custom-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 10px;
         }
 
         .custom-table th, .custom-table td {
             padding: 8px 12px;
             text-align: left;
             border-bottom: 1px solid #ccc;
+            
         }
 
         .custom-button {
@@ -87,6 +89,7 @@
             border: none;
             cursor: pointer;
             margin-right: 5px;
+            border-radius: 5px;
         }
 
         .custom-button:hover {
@@ -132,6 +135,7 @@
             background-color: red;
             color: white;
         }
+
 
 
 
