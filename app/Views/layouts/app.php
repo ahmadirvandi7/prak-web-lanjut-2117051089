@@ -12,31 +12,6 @@
     </title>
 
     <style>
-        /* body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        } */
-
-
-        /* body {
-            background-image: url("bg1.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-attachment: fixed;
-        } */
-        .container {
-            background-color: #f7f7f7;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 50px;
-            position: center;
-        }
-
         table {
             width: 100%;
             margin-top: 20px;
@@ -59,14 +34,6 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-        }
-
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
         }
 
         table {
@@ -100,13 +67,14 @@
         .custom-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            margin-top: 20px;
         }
 
         .custom-table th, .custom-table td {
             padding: 8px 12px;
             text-align: left;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 2px solid #ccc;
             
         }
 
@@ -123,17 +91,9 @@
         .custom-button:hover {
             background-color: #0056b3;
         }
-        /* .container-box {
-            border: 2px solid #007BFF;
-            padding: auto;
-            width: auto;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        } */
+
         .container-box {
-            background-color: rgba(255, 255, 255, 0.9); /* Menggunakan warna putih dengan opasitas 90% */
+            background-color: rgba(255, 255, 255, 0.9); 
             border: 2px solid #007BFF;
             padding: auto;
             width: auto;
@@ -141,6 +101,7 @@
             text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
+            width: 60%;
         }
 
 
@@ -159,26 +120,22 @@
             color: white;
         }
 
-        .custom-button-tambah{
-            background-color: red;
+        .custom-button-add{
             color: white;
+            margin-top: 8px;
         }
 
-        /* .navbar {
-            margin: 0;
-            padding: 0;
-            background-color:  rgb(44, 201, 254);
-            font-family: sans-serif;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 130vh;
-        } */       
+        .navbar {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            z-index: 100; 
+        }
+
     </style>
 </head>
-
-<body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -187,16 +144,10 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="home.php">Home</a>
+                        <a class="nav-link" href="/user/">List User</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="peminjaman.php">Peminjaman</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="data_buku.php">Data Buku</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="data_peminjam.php">Data Peminjam</a>
+                        <a class="nav-link" href="/kelas/">List Kelas</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search" action="search_dataBuku.php" method="GET">
@@ -206,6 +157,8 @@
             </div>
         </div>
     </nav>
+<body>
+
     <?= $this->renderSection('content') ?>
     <script>
         

@@ -1,16 +1,14 @@
 <?= $this->extend('layouts/app') ?>
 
-<?= $this->section('content') ?>
-
-<div  class="container-box">
+<?= $this->section('content')?>
+<div class="container-box">
 
 <?php if(session()->getFlashdata('errors')):?>
     <?=session()->getFlashdata('errors')?>
     <?php endif; ?>
-
 <form action="<?= base_url('/user/'.$user['id']) ?>" method="POST" enctype="multipart/form-data">
 <input type="hidden" name="_method" value="PUT">
-<?= csrf_field() ?>
+<?= csrf_field()?>
         <table>
             <tr>
                 <td>Nama</td>
