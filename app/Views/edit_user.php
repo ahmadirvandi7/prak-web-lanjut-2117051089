@@ -3,16 +3,20 @@
 <?= $this->section('content') ?>
 
 <div  class="container-box">
-<form action=<?= base_url('user/store')?> method="POST" enctype="multipart/form-data">
-    <?php if(session()->getFlashdata('errors')):?>
+
+<?php if(session()->getFlashdata('errors')):?>
     <?=session()->getFlashdata('errors')?>
     <?php endif; ?>
+
+<form action="<?= base_url('/user/'.$user['id']) ?>" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="_method" value="PUT">
+<?= csrf_field() ?>
         <table>
             <tr>
                 <td>Nama</td>
                 <td>:</td>
                 <td>
-                    <input type="text" name="nama" id="nama" value="<?= old('nama')?>" >
+                    <input type="text" name="nama" value="<?= $user['nama'] ?>" id="nama">
                 </td>
             </tr>
 
@@ -20,8 +24,8 @@
                 <td>NPM</td>
                 <td>:</td>
                 <td>
-                    <input type="text" name="npm" id="npm" value="<?= old('npm')?>">
-                </td>                
+                    <input type="text" name="npm" id="npm" value="<?= $user['npm'] ?>" >
+                </td>
             </tr>
 
             <tr>
@@ -29,9 +33,15 @@
                 <td>:</td>
                 <td>
                     <select name="kelas" id="kelas" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px;">
-                        <?php foreach ($kelas as $item): ?>
-                            <option value="<?= $item['id'] ?>"><?= $item['nama_kelas'] ?></option>
-                        <?php endforeach; ?>
+                    <?php
+                    foreach ($kelas as $item){
+                        ?>
+                        <option value="<?= $item['id'] ?>" <?= $user['id_kelas'] == $item['id'] ? 'selected' : '' ?> >
+                            <?= $item['nama_kelas'] ?>
+                            </option>
+                        <?php
+                        }
+                    ?>
                     </select>
                 </td>
             </tr>
@@ -40,12 +50,13 @@
                 <td>Foto</td>
                 <td>:</td>
                 <td>
+                    <img src="<?= $user['foto'] ?? '<default-foto>' ?>" style="max-width: 100%; max-height: 100px;">
                     <input type="file" name="foto" id="foto" class="form-control">
-                </td>                
+                </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    <input type="submit">
+                    <input type="submit" value="Submit" >
                 </td>
             </tr>
         </table>

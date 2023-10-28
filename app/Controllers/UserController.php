@@ -3,12 +3,11 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-
+use App\Models\KelasModel;
 use App\Models\UserModel;
-use App\Models\kelasModel;
-
 class UserController extends BaseController
 {
+    protected $helpers=['Form'];
     public $userModel;
     public $kelasModel;
 
@@ -20,118 +19,173 @@ class UserController extends BaseController
 
     public function index()
     {
-        $data = [
-            'title' => 'List User',
-            'users' => $this->userModel->getUser(),
+        $data=[
+            'title'=>'List User',
+            'users'=> $this->userModel->getUser(),
+        
         ];
-        return view('list_user', $data);
+        return view('list_user',$data);
         //
     }
-    
-    public function profile($nama = "",$npm = "", $kelas = ""){
+
+    public function profile($nama = " ", $kelas = " ", $npm = " ")
+    {
         $data = [
-                    'nama' => $nama,
-                    'npm' => $npm,
-                    'kelas' => $kelas,
-                    
+            'nama' => $nama,
+            'kelas' => $kelas,
+            'npm' => $npm,
         ];
-        return view ('profile', $data); 
+        // return True;
+        // return view('welcome_message');
+        return view('profile',$data);
+
     }
 
     public function create(){
-        // session();
-        
-        
+        // $kelasModel = new KelasModel();
+        $kelas =$this->kelasModel -> getKelas();
+        // $data = [
+        //     'kelas'=> $kelas,
+        // ];
+        // return view('create_user',$data);
         // $kelas = [
-            
         //     [
-        //         'id' => 1,
-        //         'nama_kelas' => 'A'
+        //         'id'=> 1,
+        //         'nama_kelas'=>'A'
         //     ],
         //     [
-        //         'id' => 2,
-        //         'nama_kelas' => 'B'
+        //         'id'=> 2,
+        //         'nama_kelas'=>'B'
         //     ],
         //     [
-        //         'id' => 3,
-        //         'nama_kelas' => 'C'
+        //         'id'=> 3,
+        //         'nama_kelas'=>'C'
         //     ],
         //     [
-        //         'id' => 4,
-        //         'nama_kelas' => 'D'
+        //         'id'=> 4,
+        //         'nama_kelas'=>'D'
         //     ],
         // ];
 
-        $kelasModel = new KelasModel();
-
-        $kelas = $kelasModel->getKelas();
-
         $data = [
+            'title' => 'createuser',
             'kelas' => $kelas,
+            
         ];
-        return view('create_user', $data);
+
+        return view('create_user',$data);
     }
 
     public function store(){
-
-        // if(!$this->validate([
-        //     'nama' => 'required'
-        // ])) {
-        //     $validation = \Config\Services::validation();
-        //     return redirect()->to('user/create')->withInput()->with('validation', $validation);
-        // }
-
-        // if (!$this->validate([
-        //     'nama' => 'required|min_length[3]', // Anda bisa menambahkan aturan lain di sini
-        //     'npm' => 'required|numeric', // Contoh aturan untuk bidang npm
-        //     'kelas' => 'required|is_not_unique[kelas.id]', // Contoh aturan untuk bidang kelas
-        // ])) {
-        //     // Jika validasi gagal, kembalikan ke halaman create_user dengan pesan kesalahan
-        //     return redirect()->to('user/create')->withInput();
-        // }
-        
-
-
-        // dd($this->request->getVar());
-
         $userModel = new UserModel();
-        if(!$this->validate($userModel->getValidationRules())){
-            session()->setFlashdata('errors',$this->validator->listErrors());
+
+        $path = 'assets/uploads/img/';
+        $foto = $this->request->getFile('foto');
+        $name = $foto->getRandomName();
+
+        if(!$this->validate([
+            'nama' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nama harus diisi!'
+                ]
+                ],
+            'npm' => [
+                'rules' => 'required|is_unique[user.npm]',
+                'error' => [
+                    'required' => 'NPM harus diisi!',
+                    'is_unique' => 'NPM sudah digunakan'
+                ]
+            ]
+        ])) {
+            session()->setFlashdata('error', $this->validator->listErrors());
             return redirect()->back()->withInput();
         }
-        $kelasModel = new kelasModel();
 
-        // $kelas = $kelasModel->find($this->request->getvar('kelas'));
-        // $idKelas = 1;
-        // if($kelas){
-        //     $idKelas = $kelas['id'];
-        // }
-
-        // $userModel->saveUser([
-        //     'nama' => $this->request->getVar('nama'),
-        //     'id_kelas' => $this->request->getVar('kelas'),
-        //     'npm' => $this->request->getVar('npm'),
-        // ]);
-
-        $this->userModel->saveUser([
-            'nama' => $this->request->getVar('nama'),
-            'id_kelas' => $this->request->getVar('kelas'),
-            'npm' => $this->request->getVar('npm'),
-        ]);
-
-        return redirect()->to('/user');
-
-        /*Cara jika value yang disimpan atau di kirim adalah id class, mencari nama kelas berdasarkan id class*/
-        $kelas = $kelasModel->find($this->request->getvar('kelas'));
-        if($kelas){
-            $namaKelas = $kelas['nama_kelas'];
+        if($foto->move($path,$name)){
+            $foto = base_url ($path . $name);
         }
+
+        $userModel->saveUser([
+            'nama'      => $this->request->getVar('nama'),
+            'id_kelas'  => $this->request->getVar('kelas'),
+            'npm'       => $this->request->getVar('npm'),
+            'foto'      => $foto
+        ]);
 
         $data = [
             'nama' => $this->request->getVar('nama'),
             'npm' => $this->request->getVar('npm'),
-            'kelas' => $namaKelas,
+            'kelas' => $this->request->getVar('kelas'),
         ];
+
+        return redirect()->to('/user');
+
+    }
+
+    public function edit($id){
+        $user = $this->userModel->getUser($id);
+        $kelas = $this->kelasModel->getKelas();
+
+        $data = [
+            'title'=> 'Edit User',
+            'user' => $user,
+            'kelas' => $kelas,
+        ];
+
+        return view('edit_user', $data);
+    }
+
+    public function update($id){
+        $path = 'assets/uploads/img/';
+       $foto = $this->request->getFile('foto');
+    
+       $data = [
+        'nama' => $this->request->getVar('nama'),
+        'id_kelas' => $this->request->getVar('kelas'),
+        'npm' => $this->request->getVar('npm'),
+       ];
+
+       if ($foto->isValid()){
+        $name = $foto->getRandomName();
+
+        if ($foto->move($path, $name)) {
+            $foto_path = base_url($path . $name);
+
+            $data['foto'] = $foto_path;
+        }
+       }
+
+       $result = $this->userModel->updateUser($data, $id);
+
+       if(!$result){
+        return redirect()->back()->withInput()
+        ->with('error', 'Gagal Menyimpan Data');
+       }
+
+       return  redirect()->to(base_url('/user'));
+    }
+
+    public function destroy($id)
+    {
+        $result = $this->userModel->deleteUser($id);
+        if (!$result){
+            return redirect()->back()->with('error', "Gagal Menghapus Data");
+        }
+
+        return redirect()->to(base_url('/user'))
+        ->with('success', 'Berhasil Menghapus Data');
+    }
+
+    public function show($id){
+        $user = $this->userModel->getUser($id);
+
+        $data = [
+            'title' => 'Profile',
+            'user'  => $user,
+        ];
+
         return view('profile', $data);
     }
+
 }
