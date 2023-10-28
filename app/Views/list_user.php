@@ -3,8 +3,8 @@
 <?= $this->section('content')?>
 
 <div class="container-box">
-    <a class="btn btn-primary" href="<?= base_url('/user/create')?>">Tambah Data</a>
 
+    <a class="btn btn-primary" href="<?= base_url('/user/create')?>">Tambah Data</a>
     <table class="custom-table">
         <thead>
             <tr>
